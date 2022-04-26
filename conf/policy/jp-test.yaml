@@ -1,0 +1,39 @@
+---
+- !policy
+ id: root
+ body:
+   #Create DBA group, and DBA admin and DBA users
+ - !user dsmith
+ - !user ejones
+ - !group database-admins
+ - !group database-users
+ - !host demo-app
+   #variables
+ - !variable db/username
+ - !variable db/password
+   #Add users and set permissions to the DBA group
+ - !grant
+   role: !group database-admins
+   member: !user dsmith
+   member: !user ejones
+ - !permit
+   role: !group database-admins
+   privileges:
+     - create
+     - update
+     - read
+   resources:
+     - !variable db/username
+     - !variable db/password
+   #Add users and set permissions to the DB Users group
+ - !grant
+   role: !group database-users
+   member: !host demo-app
+ - !permit
+   role: !group database-users
+   privileges:
+     - read
+   resources:
+     - !variable db/username
+     - !variable db/password
+

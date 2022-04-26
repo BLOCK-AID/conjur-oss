@@ -1,0 +1,34 @@
+- !policy 
+
+  id: ZipcodeMicroservice 
+
+  body: 
+
+    # Define an administrator, service account and variable for the API Key 
+
+  - !user ZipcodeAdmin 
+
+  - !host ZipcodeApp 
+
+  - !variable apiKey 
+
+  - !permit 
+
+    # Give read and write permissions to the administrator. 
+
+    role: !user ZipcodeAdmin 
+
+    privileges: [read, update, execute] 
+
+    resource: !variable apiKey 
+
+  - !permit 
+
+    # Give read permissions to the service account to fetch the API Key. 
+
+    role: !host ZipcodeApp 
+
+    privileges: [read, execute] 
+
+    resource: !variable apiKey
+
